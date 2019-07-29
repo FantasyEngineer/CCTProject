@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".SecondActivity">
+    <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="match_parent"
+            android:textColor="#000"
+            android:gravity="center_vertical"
+            android:textSize="18sp"
+            android:layout_height="50dp">
+    </TextView>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_below="@+id/tv_title"
+            android:layout_width="match_parent"
+            android:scrollbars="vertical"
+            android:overScrollMode="never"
+            android:layout_height="match_parent">
+
+    </androidx.recyclerview.widget.RecyclerView>
+    <ImageView
+            android:id="@+id/uptop"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="30dp"
+            android:layout_above="@+id/downBottom"
+            android:layout_marginBottom="30dp"
+            android:background="@mipmap/up"/>
+
+    <ImageView
+            android:id="@+id/downBottom"
+            android:layout_width="35dp" android:layout_height="35dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginRight="30dp"
+            android:layout_marginBottom="30dp"
+            android:background="@mipmap/down"/>
+
+</RelativeLayout>

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        tools:context=".MainActivity">
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textSize="16sp"
+                android:textColor="#000"
+                android:text="请输入投入CCT币"/>
+
+        <EditText
+                android:id="@+id/etCCTnum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:maxLines="1"
+                android:textColor="#000"
+                android:text="1000"
+                android:singleLine="true"
+                android:inputType="number"
+                android:layout_weight="1"/>
+
+
+    </LinearLayout>
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textSize="16sp"
+                android:textColor="#000"
+                android:text="请输入投资时长（天）"/>
+
+        <EditText
+                android:id="@+id/etDay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:textSize="16sp"
+                android:gravity="center"
+                android:textColor="#000"
+                android:inputType="number"
+                android:text="60"
+                android:layout_weight="1"/>
+
+
+    </LinearLayout>
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textSize="16sp"
+                android:singleLine="true"
+                android:textColor="#000"
+                android:text="威望值"/>
+
+        <EditText
+                android:id="@+id/etWeiwang"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:textSize="16sp"
+                android:gravity="center"
+                android:singleLine="true"
+                android:textColor="#000"
+                android:text="0.5"
+                android:inputType="numberDecimal"
+                android:layout_weight="1"/>
+
+
+    </LinearLayout>
+
+    <Button
+            android:id="@+id/calcu"
+            android:layout_width="match_parent"
+            android:layout_marginTop="20dp"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimaryDark"
+            android:text="模拟计算投资过程"/>
+
+    <Button
+            android:id="@+id/goHighCaclu"
+            android:layout_width="match_parent"
+            android:layout_marginTop="20dp"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimaryDark"
+            android:text="进入高级计算"/>
+
+</LinearLayout>
