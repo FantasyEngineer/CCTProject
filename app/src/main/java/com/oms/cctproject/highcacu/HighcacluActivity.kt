@@ -10,6 +10,8 @@ import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.chad.library.adapter.base.BaseQuickAdapter
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.oms.cctproject.R
 import com.oms.cctproject.model.ShowInfo
 import com.oms.cctproject.model.TaskInfo
@@ -20,13 +22,13 @@ class HighcacluActivity : AppCompatActivity(), BaseQuickAdapter.OnItemClickListe
     override fun onItemClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
         var showInfo = adapter?.getItem(position) as ShowInfo
         var dialog = AlertDialog.Builder(this)
-        var v = layoutInflater.inflate(R.layout.activity_highcaclu, null)
+        var v = layoutInflater.inflate(R.layout.activity_dialog, null)
         dialog.setView(v)
         v.findViewById<TextView>(R.id.dialog_tv_content).text = showInfo.taskInfo
         dialog.create().show()
     }
 
-    val proNum = 2
+    val proNum = 1
     val highNum = 4
     val midNum = 8
     val lowNum = 16
@@ -46,6 +48,8 @@ class HighcacluActivity : AppCompatActivity(), BaseQuickAdapter.OnItemClickListe
     var day: String? = null
     var content: String? = null
 
+    var baseList: ArrayList<TaskInfo>? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_highcaclu)
@@ -63,6 +67,12 @@ class HighcacluActivity : AppCompatActivity(), BaseQuickAdapter.OnItemClickListe
         titalNum = this.intent.getStringExtra("num").toDouble()
         titalDay1 = this.intent.getStringExtra("day").toInt()
         weiWang = this.intent.getStringExtra("weiwang").toDouble()
+        var liststr = this.intent.getStringExtra("list")
+
+        val listType = object : TypeToken<List<TaskInfo>>() {}.type
+
+        baseList = Gson().fromJson(liststr, listType)
+
         titalDay = titalDay1
 
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -81,7 +91,7 @@ class HighcacluActivity : AppCompatActivity(), BaseQuickAdapter.OnItemClickListe
         var list = ArrayList<ShowInfo>()
         tv_title.text = "总投入币数量$titalNum,总投资时间${titalDay1}天"
         //默认赠送一个初级任务
-        taskList.add(TaskInfo(lowName, 30, 10, 0.4))
+        taskList.addAll(this!!.baseList!!)
         while (titalDay >= 0) {
             //遍历区分高中低级任务，计算每天的产出
             var proTaskNum = 0
@@ -125,7 +135,7 @@ class HighcacluActivity : AppCompatActivity(), BaseQuickAdapter.OnItemClickListe
                 it.surplusTime--
             }
             content = ("专家级任务个数为$proTaskNum，日产量$outputproTask\n")
-            content = ("高级任务个数为$highTaskNum，日产量$outputhighTask\n")
+            content += ("高级任务个数为$highTaskNum，日产量$outputhighTask\n")
             content += ("中级任务个数为$midTaskNum，日产量$outputmidTask\n")
             content += ("低级任务个数为$lowTaskNum，日产量$outputlowTask\n")
             //威望值判定每天产币
@@ -160,12 +170,8 @@ class HighcacluActivity : AppCompatActivity(), BaseQuickAdapter.OnItemClickListe
             if (proTaskNum < proNum) {
                 while (titalNum >= 10000) {
                     //增加一个专家级任务
-                    titalNum -= 10000//币值扣除
-                    var taskInfo = TaskInfo(prohName, 30, 10000, 450.0)
-                    //当天完成回答,额外获得，次数减一
-                    titalNum += 450.0
-                    taskInfo.surplusTime--
-                    taskList.add(taskInfo)
+                    var taskInfo = TaskInfo.creatProTask()
+                    taskDeal(taskInfo)
                     //专家级数量+1，自循环判定
                     proTaskNum++
                     content += ("购买专家级任务,扣除10000币，专家级任务实际数量为$proTaskNum\n任务完成前购买额外获得450.0\n")
@@ -177,12 +183,10 @@ class HighcacluActivity : AppCompatActivity(), BaseQuickAdapter.OnItemClickListe
                 //当总钱数大于1000的时候购买，购买之后总币数减少1000
                 while (titalNum >= 1000) {
                     if (highTaskNum < highNum) {
-                        taskList.add(TaskInfo(highName, 29, 1000, 42.666666666))
-                        titalNum -= 1000
-                        titalNum += 42.666666666
+                        var taskInfo = TaskInfo.creatHighTask()
+                        taskDeal(taskInfo)
                         //先答题
                         highTaskNum++
-
                         content += ("购买高级任务,扣除1000币，高级任务实际数量为$highTaskNum\n任务完成前购买额外获得42.666666666\n")
                     } else {
                         content += ("高级购买完成\n")
@@ -196,9 +200,8 @@ class HighcacluActivity : AppCompatActivity(), BaseQuickAdapter.OnItemClickListe
                 //当总币数大于100的时候购买，购买之后总币数减少100
                 while (titalNum >= 100) {
                     if (midTaskNum < midNum) {
-                        taskList.add(TaskInfo(midName, 29, 100, 4.16666666))
-                        titalNum -= 100
-                        titalNum += 4.16666666
+                        var taskInfo = TaskInfo.creatMidTask()
+                        taskDeal(taskInfo)
                         midTaskNum++
                         content += ("购买中级任务,扣除100币,中级任务实际数量为$midTaskNum\n任务完成前购买额外获得4.16666666\n")
                     } else {
@@ -213,9 +216,8 @@ class HighcacluActivity : AppCompatActivity(), BaseQuickAdapter.OnItemClickListe
                 //当总币数大于10的时候购买，购买之后总币数减少10
                 while (titalNum >= 10) {
                     if (midTaskNum >= midNum && lowTaskNum < lowNum) {
-                        taskList.add(TaskInfo(lowName, 29, 10, 0.4))
-                        titalNum += 4.16666666
-                        titalNum -= 0.4
+                        var taskInfo = TaskInfo.creatLowTask()
+                        taskDeal(taskInfo)
                         lowTaskNum++
                         content += ("购买初级任务,扣除10币,初级任务实际数量为$lowTaskNum\n任务完成前购买额外获得0.4\n")
                     } else {
@@ -240,27 +242,10 @@ class HighcacluActivity : AppCompatActivity(), BaseQuickAdapter.OnItemClickListe
         adapter?.setNewData(list)
     }
 
-    /**
-     * log 输出
-     */
-    fun log(msg: String, vararg tags: String) {
-        Log.i(if (tags.isNotEmpty()) tags[0] else "log-i", msg)
+    private fun taskDeal(taskInfo: TaskInfo) {
+        taskList.add(taskInfo)
+        titalNum -= taskInfo.buyNeed
+        titalNum += taskInfo.outputNumDaily
+        taskInfo.surplusTime--
     }
-
-    private fun creatProTask(): TaskInfo {
-        return TaskInfo(prohName, 30, 10000, 450.0)
-    }
-
-    private fun creatHighTask(): TaskInfo {
-        return TaskInfo(highName, 30, 1000, 42.666666666)
-    }
-
-    private fun creatMidTask(): TaskInfo {
-        return TaskInfo(midName, 30, 100, 4.16666666)
-    }
-
-    private fun creatLowTask(): TaskInfo {
-        return TaskInfo(lowName, 30, 10, 0.4)
-    }
-
 }

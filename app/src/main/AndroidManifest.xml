@@ -12,8 +12,7 @@
         <activity android:name=".highcacu.InputHighCacluActivity">
         </activity>
         <activity
-                android:name=".highcacu.HighcacluActivity"
-                android:theme="@style/Theme.AppCompat.Light.Dialog">
+                android:name=".highcacu.HighcacluActivity">
         </activity>
         <activity android:name=".MainActivity">
             <intent-filter>
