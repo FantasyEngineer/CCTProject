@@ -26,6 +26,7 @@
                 android:layout_width="180dp"
                 android:spinnerMode="dialog"
                 android:gravity="center"
+                android:textDirection="firstStrong"
                 android:entries="@array/taskName"
                 android:layout_height="wrap_content"/>
 

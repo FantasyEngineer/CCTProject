@@ -5,6 +5,8 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.MotionEvent
+import android.view.View
 import android.widget.Spinner
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -12,14 +14,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.google.gson.Gson
 import com.oms.cctproject.R
-import com.oms.cctproject.SecondActivity
 import com.oms.cctproject.adapter.AddTaskAdapter
 import com.oms.cctproject.listener.ClickListener
 import com.oms.cctproject.model.TaskInfo
+import com.oms.cctproject.util.KeyBrodUtil
+import com.oms.cctproject.util.PrefUtil
 import kotlinx.android.synthetic.main.activity_input_high_caclu.*
 import kotlinx.android.synthetic.main.activity_input_high_caclu.calcu
 import kotlinx.android.synthetic.main.activity_input_high_caclu.etCCTnum
-import kotlinx.android.synthetic.main.activity_input_high_caclu.etDay
 import kotlinx.android.synthetic.main.activity_input_high_caclu.etWeiwang
 
 class InputHighCacluActivity : AppCompatActivity() {
@@ -29,6 +31,20 @@ class InputHighCacluActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_input_high_caclu)
+
+        scrollView.setOnTouchListener { _: View, _: MotionEvent ->
+            KeyBrodUtil.closeKeybord(etCCTnum, this)
+            return@setOnTouchListener false
+        }
+        //------------------------初始化页面----------------------------------------------
+//        val listType = object : TypeToken<List<TaskInfo>>() {}.type
+        //创建一个只有个低级任务的列表，作为默认列表
+//        var defaultlist: ArrayList<TaskInfo> = ArrayList()
+//        defaultlist.add(TaskInfo.creatLowTask())
+//        list = Gson().fromJson(PrefUtil.getString("list", Gson().toJson(defaultlist)), listType)
+
+        etCCTnum.setText(PrefUtil.getString("cctnum", "1000"))
+        //------------------------初始化页面结束------------------------------------------
 
 
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -61,6 +77,8 @@ class InputHighCacluActivity : AppCompatActivity() {
                 dialog.setNegativeButton("确认") { _: DialogInterface, _: Int ->
                     task?.name = spiname.selectedItem.toString()
                     task?.surplusTime = spinum.selectedItem.toString().toInt()
+//                    task?.outputNumDaily = getOutputNumDaily(spiname.selectedItem.toString())
+//                    task?.buyNeed = getBuyNeed(spiname.selectedItem.toString())
                     adapter!!.notifyItemChanged(position)
                 }
                 dialog.setView(v)
@@ -105,11 +123,23 @@ class InputHighCacluActivity : AppCompatActivity() {
         calcu.setOnClickListener {
             var intent = Intent(this, HighcacluActivity::class.java)
             intent.putExtra("num", etCCTnum.text.toString())
-            intent.putExtra("day", etDay.text.toString())
             intent.putExtra("weiwang", etWeiwang.text.toString())
             intent.putExtra("list", Gson().toJson(list))
             startActivity(intent)
         }
     }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d("12312", "resume")
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+//        PrefUtil.putString("list", Gson().toJson(list))
+        PrefUtil.putString("cctnum", etCCTnum.text.toString())
+
+    }
+
 
 }

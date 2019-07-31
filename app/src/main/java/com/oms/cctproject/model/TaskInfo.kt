@@ -5,8 +5,8 @@ import android.util.Log
 data class TaskInfo(
     var name: String,//任务名称
     var surplusTime: Int,//任务生效天数
-    val buyNeed: Int,//购买任务需要的币的数量
-    val outputNumDaily: Double,//每天产出币数量
+    var buyNeed: Int,//购买任务需要的币的数量
+    var outputNumDaily: Double,//每天产出币数量
     val flag: Long = System.currentTimeMillis()
 ) {
     companion object {
@@ -48,6 +48,31 @@ data class TaskInfo(
             return TaskInfo(lowName, num, 10, 0.4)
         }
 
+        //根据名字获取到产出
+        fun getOutputNumDaily(name: String): Double {
+            return when (name) {
+                prohName -> 450.0
+                highName -> 42.666666666
+                midName -> 4.16666666
+                lowName -> 0.4
+                else -> 0.0
+            }
+        }
+
+        //根据名字获取到所需
+        fun getBuyNeed(name: String): Int {
+            return when (name) {
+                prohName -> 10000
+                highName -> 1000
+                midName -> 100
+                lowName -> 10
+                else -> 0
+            }
+        }
+
+
     }
+
+
 }
 

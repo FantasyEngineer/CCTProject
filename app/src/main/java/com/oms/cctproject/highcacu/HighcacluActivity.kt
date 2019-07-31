@@ -2,6 +2,8 @@ package com.oms.cctproject.highcacu
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Message
 import android.util.Log
 import android.view.View
 import android.widget.TextView
@@ -16,9 +18,22 @@ import com.oms.cctproject.R
 import com.oms.cctproject.model.ShowInfo
 import com.oms.cctproject.model.TaskInfo
 import com.oms.cctproject.adapter.Myadapter
+import com.oms.cctproject.model.TaskInfo.Companion.highName
+import com.oms.cctproject.model.TaskInfo.Companion.lowName
+import com.oms.cctproject.model.TaskInfo.Companion.midName
+import com.oms.cctproject.model.TaskInfo.Companion.prohName
 import kotlinx.android.synthetic.main.activity_second.*
 
-class HighcacluActivity : AppCompatActivity(), BaseQuickAdapter.OnItemClickListener {
+class HighcacluActivity : AppCompatActivity(), BaseQuickAdapter.OnItemClickListener,
+    BaseQuickAdapter.RequestLoadMoreListener {
+    override fun onLoadMoreRequested() {
+        handler.postDelayed({
+            endIndex += 50
+            caclu(endIndex)
+        }, 1000)
+
+    }
+
     override fun onItemClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
         var showInfo = adapter?.getItem(position) as ShowInfo
         var dialog = AlertDialog.Builder(this)
@@ -32,23 +47,39 @@ class HighcacluActivity : AppCompatActivity(), BaseQuickAdapter.OnItemClickListe
     val highNum = 4
     val midNum = 8
     val lowNum = 16
-    val prohName = "专家级任务"
-    val highName = "高级任务"
-    val midName = "中级任务"
-    val lowName = "初级任务"
     //总投入的cct币数量
     var titalNum = 1000.00
     //总投入的天数
-    private var titalDay1 = 90
+    private var titalDay1 = 10000
     //经过的天数
-    private var titalDay = 90
+    private var titalDay = 10000
     private var weiWang: Double = 0.0
     //这里是任务详情
     var adapter: Myadapter? = null
     var day: String? = null
     var content: String? = null
+    var handler: Handler = object : Handler() {
+        override fun handleMessage(msg: Message) {
+            super.handleMessage(msg)
+
+            when (msg.what) {
+                0 -> {
+                    //防止加载过多
+                    var newlist = list.subList(0, endIndex)
+                    adapter?.setNewData(newlist)
+                }
+                1 -> {
+                    var newlist = list.subList(0, endIndex)
+
+                    adapter?.addData(newlist)
+                }
+            }
+        }
+    }
+
 
     var baseList: ArrayList<TaskInfo>? = null
+    var endIndex: Int = 50
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -65,33 +96,33 @@ class HighcacluActivity : AppCompatActivity(), BaseQuickAdapter.OnItemClickListe
         Toast.makeText(this, "如果当天的收益足够买一个目标任务，那么一定先买任务再答题，切记切记", Toast.LENGTH_LONG).show()
 
         titalNum = this.intent.getStringExtra("num").toDouble()
-        titalDay1 = this.intent.getStringExtra("day").toInt()
         weiWang = this.intent.getStringExtra("weiwang").toDouble()
-        var liststr = this.intent.getStringExtra("list")
-
-        val listType = object : TypeToken<List<TaskInfo>>() {}.type
-
-        baseList = Gson().fromJson(liststr, listType)
-
-        titalDay = titalDay1
+//        var liststr = this.intent.getStringExtra("list")
+//        val listType = object : TypeToken<List<TaskInfo>>() {}.type
+//        baseList = Gson().fromJson(liststr, listType)
 
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.itemAnimator = DefaultItemAnimator()//添加数据和删除数据的动画效果
         adapter = Myadapter(R.layout.item)
         recyclerView.adapter = adapter
-        caclu()
+
+        tv_title.text = "总投入币数量$titalNum,总投资时间${titalDay1}天"
+        caclu(endIndex)
+
         adapter!!.onItemClickListener = this
+
+        adapter!!.setOnLoadMoreListener(this)
+
     }
 
     //总的任务tasklist
     var taskList: ArrayList<TaskInfo> = ArrayList()
+    //展示list
+    var list = ArrayList<ShowInfo>()
 
-    private fun caclu() {
-        //展示list
-        var list = ArrayList<ShowInfo>()
-        tv_title.text = "总投入币数量$titalNum,总投资时间${titalDay1}天"
+    private fun caclu(time: Int) {
         //默认赠送一个初级任务
-        taskList.addAll(this!!.baseList!!)
+//        taskList.addAll(this!!.baseList!!)
         while (titalDay >= 0) {
             //遍历区分高中低级任务，计算每天的产出
             var proTaskNum = 0
@@ -105,6 +136,8 @@ class HighcacluActivity : AppCompatActivity(), BaseQuickAdapter.OnItemClickListe
             var taskInfo = ""
 
             var timeNum = titalDay1 - titalDay
+            Log.d("123123", timeNum.toString())
+            Log.d("123123", titalDay.toString())
             day = ("第${timeNum}天")
 
             taskList.forEach {
@@ -169,12 +202,17 @@ class HighcacluActivity : AppCompatActivity(), BaseQuickAdapter.OnItemClickListe
             //购买任务
             if (proTaskNum < proNum) {
                 while (titalNum >= 10000) {
-                    //增加一个专家级任务
-                    var taskInfo = TaskInfo.creatProTask()
-                    taskDeal(taskInfo)
-                    //专家级数量+1，自循环判定
-                    proTaskNum++
-                    content += ("购买专家级任务,扣除10000币，专家级任务实际数量为$proTaskNum\n任务完成前购买额外获得450.0\n")
+                    if (proTaskNum < proNum) {
+                        //增加一个专家级任务
+                        var taskInfo = TaskInfo.creatProTask()
+                        taskDeal(taskInfo)
+                        //专家级数量+1，自循环判定
+                        proTaskNum++
+                        content += ("购买专家级任务,扣除10000币，专家级任务实际数量为$proTaskNum\n任务完成前购买额外获得450.0\n")
+                    } else {
+                        content += ("专家级任务购买完成\n")
+                        break
+                    }
                 }
             }
 
@@ -234,12 +272,19 @@ class HighcacluActivity : AppCompatActivity(), BaseQuickAdapter.OnItemClickListe
                 taskInfo += "${it.name}，任务剩余时长${it.surplusTime}天\n"
             }
 
+            if (timeNum > time) {
+                break
+            }
+
             //天数减一
             titalDay--
             //将当前的详情展示出来，并且将任务list同步到adapter中，用于弹窗展示
             list.add(ShowInfo(day, content, taskInfo))
         }
         adapter?.setNewData(list)
+
+//        handler.sendEmptyMessageDelayed(0, 0)
+
     }
 
     private fun taskDeal(taskInfo: TaskInfo) {
@@ -248,4 +293,5 @@ class HighcacluActivity : AppCompatActivity(), BaseQuickAdapter.OnItemClickListe
         titalNum += taskInfo.outputNumDaily
         taskInfo.surplusTime--
     }
+
 }
