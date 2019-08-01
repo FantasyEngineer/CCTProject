@@ -13,10 +13,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.oms.cctproject.R
 import com.oms.cctproject.adapter.AddTaskAdapter
 import com.oms.cctproject.listener.ClickListener
 import com.oms.cctproject.model.TaskInfo
+import com.oms.cctproject.model.TaskInfo.Companion.getBuyNeed
+import com.oms.cctproject.model.TaskInfo.Companion.getOutputNumDaily
 import com.oms.cctproject.util.KeyBrodUtil
 import com.oms.cctproject.util.PrefUtil
 import kotlinx.android.synthetic.main.activity_input_high_caclu.*
@@ -37,11 +40,11 @@ class InputHighCacluActivity : AppCompatActivity() {
             return@setOnTouchListener false
         }
         //------------------------初始化页面----------------------------------------------
-//        val listType = object : TypeToken<List<TaskInfo>>() {}.type
-        //创建一个只有个低级任务的列表，作为默认列表
-//        var defaultlist: ArrayList<TaskInfo> = ArrayList()
-//        defaultlist.add(TaskInfo.creatLowTask())
-//        list = Gson().fromJson(PrefUtil.getString("list", Gson().toJson(defaultlist)), listType)
+        val listType = object : TypeToken<List<TaskInfo>>() {}.type
+//        创建一个只有个低级任务的列表，作为默认列表
+        var defaultlist: ArrayList<TaskInfo> = ArrayList()
+        defaultlist.add(TaskInfo.creatLowTask())
+        list = Gson().fromJson(PrefUtil.getString("list", Gson().toJson(defaultlist)), listType)
 
         etCCTnum.setText(PrefUtil.getString("cctnum", "1000"))
         //------------------------初始化页面结束------------------------------------------
@@ -77,8 +80,8 @@ class InputHighCacluActivity : AppCompatActivity() {
                 dialog.setNegativeButton("确认") { _: DialogInterface, _: Int ->
                     task?.name = spiname.selectedItem.toString()
                     task?.surplusTime = spinum.selectedItem.toString().toInt()
-//                    task?.outputNumDaily = getOutputNumDaily(spiname.selectedItem.toString())
-//                    task?.buyNeed = getBuyNeed(spiname.selectedItem.toString())
+                    task?.outputNumDaily = getOutputNumDaily(spiname.selectedItem.toString())
+                    task?.buyNeed = getBuyNeed(spiname.selectedItem.toString())
                     adapter!!.notifyItemChanged(position)
                 }
                 dialog.setView(v)
@@ -129,14 +132,10 @@ class InputHighCacluActivity : AppCompatActivity() {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        Log.d("12312", "resume")
-    }
 
     override fun onDestroy() {
         super.onDestroy()
-//        PrefUtil.putString("list", Gson().toJson(list))
+        PrefUtil.putString("list", Gson().toJson(list))
         PrefUtil.putString("cctnum", etCCTnum.text.toString())
 
     }

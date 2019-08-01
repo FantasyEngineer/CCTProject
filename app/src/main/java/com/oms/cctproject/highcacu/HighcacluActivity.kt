@@ -27,6 +27,7 @@ import kotlinx.android.synthetic.main.activity_second.*
 class HighcacluActivity : AppCompatActivity(), BaseQuickAdapter.OnItemClickListener,
     BaseQuickAdapter.RequestLoadMoreListener {
     override fun onLoadMoreRequested() {
+        //---------------------------刷新轮旬-------------------------------------------------
         handler.postDelayed({
             endIndex += 50
             caclu(endIndex)
@@ -34,12 +35,18 @@ class HighcacluActivity : AppCompatActivity(), BaseQuickAdapter.OnItemClickListe
 
     }
 
+
+    //---------------------------recyclerView每项点击-------------------------------------------------
     override fun onItemClick(adapter: BaseQuickAdapter<*, *>?, view: View?, position: Int) {
         var showInfo = adapter?.getItem(position) as ShowInfo
         var dialog = AlertDialog.Builder(this)
         var v = layoutInflater.inflate(R.layout.activity_dialog, null)
         dialog.setView(v)
         v.findViewById<TextView>(R.id.dialog_tv_content).text = showInfo.taskInfo
+        v.findViewById<TextView>(R.id.sellall).setOnClickListener {
+
+
+        }
         dialog.create().show()
     }
 
@@ -58,32 +65,35 @@ class HighcacluActivity : AppCompatActivity(), BaseQuickAdapter.OnItemClickListe
     var adapter: Myadapter? = null
     var day: String? = null
     var content: String? = null
-    var handler: Handler = object : Handler() {
-        override fun handleMessage(msg: Message) {
-            super.handleMessage(msg)
-
-            when (msg.what) {
-                0 -> {
-                    //防止加载过多
-                    var newlist = list.subList(0, endIndex)
-                    adapter?.setNewData(newlist)
-                }
-                1 -> {
-                    var newlist = list.subList(0, endIndex)
-
-                    adapter?.addData(newlist)
-                }
-            }
-        }
-    }
-
-
+    var handler: Handler = Handler()
     var baseList: ArrayList<TaskInfo>? = null
     var endIndex: Int = 50
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_highcaclu)
+
+        //---------------------------------页面数据初始化-----------------------------------------------------
+        Toast.makeText(this, "如果当天的收益足够买一个目标任务，那么一定先买任务再答题，切记切记", Toast.LENGTH_LONG).show()
+        titalNum = this.intent.getStringExtra("num").toDouble()
+        weiWang = this.intent.getStringExtra("weiwang").toDouble()
+        var liststr = this.intent.getStringExtra("list")
+        val listType = object : TypeToken<List<TaskInfo>>() {}.type
+        //获取前一个页面预设的任务
+        baseList = Gson().fromJson(liststr, listType)
+        //将任务添加到taskList
+        taskList.addAll(this!!.baseList!!)
+        tv_title.text = "总投入币数量$titalNum,总投资时间${titalDay1}天"
+
+        //---------------------------------RecyclerView初始化-------------------------------------------------
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.itemAnimator = DefaultItemAnimator()//添加数据和删除数据的动画效果
+        adapter = Myadapter(R.layout.item)
+        recyclerView.adapter = adapter
+
+        //---------------------------------监听---------------------------------------------------------------
+        adapter!!.onItemClickListener = this
+        adapter!!.setOnLoadMoreListener(this)
         //向下
         downBottom.setOnClickListener {
             recyclerView.scrollToPosition(adapter?.itemCount!!.minus(1))
@@ -93,25 +103,8 @@ class HighcacluActivity : AppCompatActivity(), BaseQuickAdapter.OnItemClickListe
             recyclerView.scrollToPosition(0)
         }
 
-        Toast.makeText(this, "如果当天的收益足够买一个目标任务，那么一定先买任务再答题，切记切记", Toast.LENGTH_LONG).show()
-
-        titalNum = this.intent.getStringExtra("num").toDouble()
-        weiWang = this.intent.getStringExtra("weiwang").toDouble()
-//        var liststr = this.intent.getStringExtra("list")
-//        val listType = object : TypeToken<List<TaskInfo>>() {}.type
-//        baseList = Gson().fromJson(liststr, listType)
-
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.itemAnimator = DefaultItemAnimator()//添加数据和删除数据的动画效果
-        adapter = Myadapter(R.layout.item)
-        recyclerView.adapter = adapter
-
-        tv_title.text = "总投入币数量$titalNum,总投资时间${titalDay1}天"
+        //---------------------------------首次计算50个--------------------------------------------------------
         caclu(endIndex)
-
-        adapter!!.onItemClickListener = this
-
-        adapter!!.setOnLoadMoreListener(this)
 
     }
 
@@ -121,8 +114,6 @@ class HighcacluActivity : AppCompatActivity(), BaseQuickAdapter.OnItemClickListe
     var list = ArrayList<ShowInfo>()
 
     private fun caclu(time: Int) {
-        //默认赠送一个初级任务
-//        taskList.addAll(this!!.baseList!!)
         while (titalDay >= 0) {
             //遍历区分高中低级任务，计算每天的产出
             var proTaskNum = 0
@@ -216,8 +207,8 @@ class HighcacluActivity : AppCompatActivity(), BaseQuickAdapter.OnItemClickListe
                 }
             }
 
-            //当高级任务数量小于4的时候
-            if (highTaskNum <= highNum && (midTaskNum == 0 || midTaskNum >= 8)) {
+            //当高级任务数量小于4的时候/*(midTaskNum == 0 || midTaskNum >= 8)*/
+            if (highTaskNum <= highNum) {
                 //当总钱数大于1000的时候购买，购买之后总币数减少1000
                 while (titalNum >= 1000) {
                     if (highTaskNum < highNum) {
@@ -272,19 +263,16 @@ class HighcacluActivity : AppCompatActivity(), BaseQuickAdapter.OnItemClickListe
                 taskInfo += "${it.name}，任务剩余时长${it.surplusTime}天\n"
             }
 
-            if (timeNum > time) {
-                break
-            }
-
             //天数减一
             titalDay--
             //将当前的详情展示出来，并且将任务list同步到adapter中，用于弹窗展示
-            list.add(ShowInfo(day, content, taskInfo))
+            list.add(ShowInfo(day, content, taskInfo, titalNum.toString(), taskList))
+            //跳出循环
+            if (timeNum > time) {
+                break
+            }
         }
         adapter?.setNewData(list)
-
-//        handler.sendEmptyMessageDelayed(0, 0)
-
     }
 
     private fun taskDeal(taskInfo: TaskInfo) {

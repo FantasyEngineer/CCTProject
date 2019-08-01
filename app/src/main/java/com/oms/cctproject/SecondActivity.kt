@@ -230,7 +230,7 @@ class SecondActivity : AppCompatActivity(), BaseQuickAdapter.OnItemClickListener
             //天数减一
             titalDay--
             //将当前的详情展示出来，并且将任务list同步到adapter中，用于弹窗展示
-            list.add(ShowInfo(day, content, taskInfo))
+            list.add(ShowInfo(day, content, taskInfo, titalNum.toString(), taskList))
         }
         adapter?.setNewData(list)
     }

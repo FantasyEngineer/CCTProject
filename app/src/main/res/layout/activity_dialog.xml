@@ -47,21 +47,25 @@
                 android:layout_height="wrap_content">
 
 
-            <TextView android:layout_width="match_parent"
-                      android:layout_height="40dp"
-                      android:gravity="center"
-                      android:layout_marginRight="10dp"
-                      android:background="@android:color/darker_gray"
-                      android:layout_weight="1"
-                      android:text="补仓"/>
+            <TextView
+                    android:id="@+id/bucang"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:gravity="center"
+                    android:layout_marginRight="10dp"
+                    android:background="@android:color/darker_gray"
+                    android:layout_weight="1"
+                    android:text="补仓"/>
 
-            <TextView android:layout_width="match_parent"
-                      android:layout_height="40dp"
-                      android:gravity="center"
-                      android:layout_marginLeft="10dp"
-                      android:layout_weight="1"
-                      android:background="@android:color/darker_gray"
-                      android:text="全部售出"/>
+            <TextView
+                    android:id="@+id/sellall"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:gravity="center"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:background="@android:color/darker_gray"
+                    android:text="全部售出"/>
 
         </LinearLayout>
 
