@@ -21,6 +21,7 @@ import com.oms.cctproject.model.TaskInfo
 import com.oms.cctproject.model.TaskInfo.Companion.getBuyNeed
 import com.oms.cctproject.model.TaskInfo.Companion.getOutputNumDaily
 import com.oms.cctproject.util.KeyBrodUtil
+import com.oms.cctproject.util.LinearManager
 import com.oms.cctproject.util.PrefUtil
 import kotlinx.android.synthetic.main.activity_input_high_caclu.*
 import kotlinx.android.synthetic.main.activity_input_high_caclu.calcu
@@ -29,6 +30,7 @@ import kotlinx.android.synthetic.main.activity_input_high_caclu.etWeiwang
 
 class InputHighCacluActivity : AppCompatActivity() {
     var adapter: AddTaskAdapter? = null
+    var isGet: Boolean = false
 
     var list: ArrayList<TaskInfo> = ArrayList()
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,6 +40,11 @@ class InputHighCacluActivity : AppCompatActivity() {
         scrollView.setOnTouchListener { _: View, _: MotionEvent ->
             KeyBrodUtil.closeKeybord(etCCTnum, this)
             return@setOnTouchListener false
+        }
+
+        /*是否领取过*/
+        isReceive.setOnCheckedChangeListener { _, b ->
+            isGet = b
         }
         //------------------------初始化页面----------------------------------------------
         val listType = object : TypeToken<List<TaskInfo>>() {}.type
@@ -128,6 +135,7 @@ class InputHighCacluActivity : AppCompatActivity() {
             intent.putExtra("num", etCCTnum.text.toString())
             intent.putExtra("weiwang", etWeiwang.text.toString())
             intent.putExtra("list", Gson().toJson(list))
+            intent.putExtra("isget", isGet)
             startActivity(intent)
         }
     }

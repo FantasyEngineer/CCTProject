@@ -41,7 +41,7 @@
             android:textSize="19dp"
             android:gravity="center"
             android:padding="5dp"
-
+            android:visibility="invisible"
             android:background="@android:color/darker_gray"
             android:layout_height="wrap_content"
             android:text="复制"/>
