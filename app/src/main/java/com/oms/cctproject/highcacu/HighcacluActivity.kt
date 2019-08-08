@@ -53,10 +53,10 @@ class HighcacluActivity : AppCompatActivity(), BaseQuickAdapter.OnItemClickListe
         dialog.create().show()
     }
 
-    val proNum = 1
-    val highNum = 4
-    val midNum = 8
-    val lowNum = 16
+    private val proNum = 1
+    private val highNum = 4
+    private val midNum = 8
+    private val lowNum = 16
     //总投入的cct币数量
     var titalNum = 1000.00
     //总投入的天数
@@ -118,6 +118,8 @@ class HighcacluActivity : AppCompatActivity(), BaseQuickAdapter.OnItemClickListe
     var taskList: ArrayList<TaskInfo> = ArrayList()
     //展示list
     var list = ArrayList<ShowInfo>()
+    //临时金额，不参与答题之后的任务奖励，单纯为了计算本次的结余是否足够买任务
+    var temporaryVariable: Double = 0.0
 
     private fun caclu(time: Int) {
         while (titalDay >= 0) {
@@ -133,16 +135,14 @@ class HighcacluActivity : AppCompatActivity(), BaseQuickAdapter.OnItemClickListe
             var taskInfo = ""
 
             var timeNum = titalDay1 - titalDay
-            Log.d("123123", timeNum.toString())
-            Log.d("123123", titalDay.toString())
             var cale = Calendar.getInstance()
             cale.add(Calendar.DAY_OF_MONTH, timeNum)
             var year = cale.get(Calendar.YEAR)
             var month = cale.get(Calendar.MONTH) + 1
             var data = cale.get(Calendar.DAY_OF_MONTH)
 
-            day = ("${year}年${month}月${data}日，第${timeNum}天")
-
+            day = ("${year}年${month}月${data}日，第${timeNum}天,起始资金$titalNum")
+            temporaryVariable = titalNum
             //当日是否领取过任务cct奖励，如果领取，这里不进行任何处理
             if (timeNum == 0 && isGet) {
                 taskList.forEach {
@@ -234,7 +234,7 @@ class HighcacluActivity : AppCompatActivity(), BaseQuickAdapter.OnItemClickListe
                 }
 
                 content += ("币值结余$titalNum\n")
-            }else{
+            } else {
                 taskList.forEach {
                     when (it.name) {
                         prohName -> {
@@ -295,11 +295,12 @@ class HighcacluActivity : AppCompatActivity(), BaseQuickAdapter.OnItemClickListe
                 }
                 //购买任务
                 if (proTaskNum < proNum) {
-                    while (titalNum >= 10000) {
+                    while (temporaryVariable >= 10000) {
                         if (proTaskNum < proNum) {
                             //增加一个专家级任务
                             var taskInfo = TaskInfo.creatProTask()
                             taskDeal(taskInfo)
+                            temporaryVariable -= taskInfo.buyNeed
                             //专家级数量+1，自循环判定
                             proTaskNum++
                             content += ("购买专家级任务,扣除10000币，专家级任务实际数量为$proTaskNum\n任务完成前购买额外获得450.0\n")
@@ -308,15 +309,19 @@ class HighcacluActivity : AppCompatActivity(), BaseQuickAdapter.OnItemClickListe
                             break
                         }
                     }
+                } else {
+                    content += ("专家级任务购买完成\n")
                 }
 
                 //当高级任务数量小于4的时候/*(midTaskNum == 0 || midTaskNum >= 8)*/
                 if (highTaskNum <= highNum) {
                     //当总钱数大于1000的时候购买，购买之后总币数减少1000
-                    while (titalNum >= 1000) {
+                    while (temporaryVariable >= 1000) {
                         if (highTaskNum < highNum) {
                             var taskInfo = TaskInfo.creatHighTask()
                             taskDeal(taskInfo)
+                            temporaryVariable -= taskInfo.buyNeed
+
                             //先答题
                             highTaskNum++
                             content += ("购买高级任务,扣除1000币，高级任务实际数量为$highTaskNum\n任务完成前购买额外获得42.666666666\n")
@@ -325,15 +330,19 @@ class HighcacluActivity : AppCompatActivity(), BaseQuickAdapter.OnItemClickListe
                             break
                         }
                     }
+                } else {
+                    content += ("高级购买完成\n")
                 }
 
                 //当中级任务数量小于8的时候
                 if (midTaskNum < midNum) {
                     //当总币数大于100的时候购买，购买之后总币数减少100
-                    while (titalNum >= 100) {
+                    while (temporaryVariable >= 100) {
                         if (midTaskNum < midNum) {
                             var taskInfo = TaskInfo.creatMidTask()
                             taskDeal(taskInfo)
+                            temporaryVariable -= taskInfo.buyNeed
+
                             midTaskNum++
                             content += ("购买中级任务,扣除100币,中级任务实际数量为$midTaskNum\n任务完成前购买额外获得4.16666666\n")
                         } else {
@@ -341,15 +350,19 @@ class HighcacluActivity : AppCompatActivity(), BaseQuickAdapter.OnItemClickListe
                             break
                         }
                     }
+                } else {
+                    content += ("中级购买完成\n")
                 }
 
                 //当中级任务满的时候并且低级任务小于16的时候
                 if (midTaskNum >= midNum && lowTaskNum <= lowNum) {
                     //当总币数大于10的时候购买，购买之后总币数减少10
-                    while (titalNum >= 10) {
+                    while (temporaryVariable >= 10) {
                         if (midTaskNum >= midNum && lowTaskNum < lowNum) {
                             var taskInfo = TaskInfo.creatLowTask()
                             taskDeal(taskInfo)
+                            temporaryVariable -= taskInfo.buyNeed
+
                             lowTaskNum++
                             content += ("购买初级任务,扣除10币,初级任务实际数量为$lowTaskNum\n任务完成前购买额外获得0.4\n")
                         } else {
@@ -382,6 +395,7 @@ class HighcacluActivity : AppCompatActivity(), BaseQuickAdapter.OnItemClickListe
     private fun taskDeal(taskInfo: TaskInfo) {
         taskList.add(taskInfo)
         titalNum -= taskInfo.buyNeed
+        //如果没有领取过任务，才可以累加
         titalNum += taskInfo.outputNumDaily
         taskInfo.surplusTime--
     }
