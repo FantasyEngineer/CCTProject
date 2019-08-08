@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
 import com.oms.cctproject.highcacu.InputHighCacluActivity
+import com.oms.cctproject.memo.MemoHomeActivity
 import com.oms.cctproject.util.FileIOUtils
 import com.tbruyelle.rxpermissions2.RxPermissions
 import io.reactivex.Observer
@@ -27,6 +28,10 @@ class MainActivity : AppCompatActivity() {
 
         goHighCaclu.setOnClickListener {
             var intent = Intent(this, InputHighCacluActivity::class.java)
+            startActivity(intent)
+        }
+        goMemo.setOnClickListener {
+            var intent = Intent(this, MemoHomeActivity::class.java)
             startActivity(intent)
         }
 

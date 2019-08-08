@@ -111,5 +111,12 @@
             android:layout_height="wrap_content"
             android:background="@color/colorPrimaryDark"
             android:text="进入高级计算"/>
+    <Button
+            android:id="@+id/goMemo"
+            android:layout_width="match_parent"
+            android:layout_marginTop="20dp"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimaryDark"
+            android:text="进入备忘"/>
 
 </LinearLayout>

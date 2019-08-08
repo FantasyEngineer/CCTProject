@@ -622,7 +622,7 @@ public final class FileIOUtils {
         return createOrExistsFile(getFileByPath(filePath));
     }
 
-    private static boolean createOrExistsFile(final File file) {
+    public static boolean createOrExistsFile(final File file) {
         if (file == null) return false;
         if (file.exists()) return file.isFile();
         if (!createOrExistsDir(file.getParentFile())) return false;
