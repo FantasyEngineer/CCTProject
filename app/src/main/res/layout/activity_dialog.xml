@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.percentlayout.widget.PercentRelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:gravity="center"
@@ -40,34 +39,34 @@
 
         </ScrollView>
 
-        <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_marginBottom="15dp"
-                android:layout_height="wrap_content">
+        <!--<LinearLayout-->
+        <!--android:orientation="horizontal"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_marginBottom="15dp"-->
+        <!--android:layout_height="wrap_content">-->
 
 
-            <TextView
-                    android:id="@+id/bucang"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:gravity="center"
-                    android:layout_marginRight="10dp"
-                    android:background="@android:color/darker_gray"
-                    android:layout_weight="1"
-                    android:text="补仓"/>
+        <!--<TextView-->
+        <!--android:id="@+id/bucang"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="40dp"-->
+        <!--android:gravity="center"-->
+        <!--android:layout_marginRight="10dp"-->
+        <!--android:background="@android:color/darker_gray"-->
+        <!--android:layout_weight="1"-->
+        <!--android:text="补仓"/>-->
 
-            <TextView
-                    android:id="@+id/sellall"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:gravity="center"
-                    android:layout_marginLeft="10dp"
-                    android:layout_weight="1"
-                    android:background="@android:color/darker_gray"
-                    android:text="全部售出"/>
+        <!--<TextView-->
+        <!--android:id="@+id/sellall"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="40dp"-->
+        <!--android:gravity="center"-->
+        <!--android:layout_marginLeft="10dp"-->
+        <!--android:layout_weight="1"-->
+        <!--android:background="@android:color/darker_gray"-->
+        <!--android:text="全部售出"/>-->
 
-        </LinearLayout>
+        <!--</LinearLayout>-->
 
     </LinearLayout>
 

@@ -46,10 +46,6 @@ class HighcacluActivity : AppCompatActivity(), BaseQuickAdapter.OnItemClickListe
         var v = layoutInflater.inflate(R.layout.activity_dialog, null)
         dialog.setView(v)
         v.findViewById<TextView>(R.id.dialog_tv_content).text = showInfo.taskInfo
-        v.findViewById<TextView>(R.id.sellall).setOnClickListener {
-
-
-        }
         dialog.create().show()
     }
 
@@ -89,7 +85,7 @@ class HighcacluActivity : AppCompatActivity(), BaseQuickAdapter.OnItemClickListe
         baseList = Gson().fromJson(liststr, listType)
         //将任务添加到taskList
         taskList.addAll(this!!.baseList!!)
-        tv_title.text = "总投入币数量$titalNum,总投资时间${titalDay1}天"
+        tv_title.text = "总投入币数量$titalNum"
 
         //---------------------------------RecyclerView初始化-------------------------------------------------
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -141,7 +137,7 @@ class HighcacluActivity : AppCompatActivity(), BaseQuickAdapter.OnItemClickListe
             var month = cale.get(Calendar.MONTH) + 1
             var data = cale.get(Calendar.DAY_OF_MONTH)
 
-            day = ("${year}年${month}月${data}日，第${timeNum}天,起始资金$titalNum")
+            day = ("${year}年${month}月${data}日，第${timeNum}天,资金$titalNum")
             temporaryVariable = titalNum
             //当日是否领取过任务cct奖励，如果领取，这里不进行任何处理
             if (timeNum == 0 && isGet) {
