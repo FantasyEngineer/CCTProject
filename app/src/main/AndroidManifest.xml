@@ -17,6 +17,8 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
+        <activity android:name=".memo.NoteActivity">
+        </activity>
         <activity android:name=".memo.MemoHomeActivity">
         </activity>
         <activity android:name=".highcacu.InputHighCacluActivity">

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        tools:context=".memo.NoteActivity">
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+
+        <TextView android:layout_width="wrap_content"
+                  android:text="请输入金额"
+                  android:layout_height="wrap_content"/>
+
+        <EditText
+                android:id="@+id/price"
+                android:layout_width="match_parent"
+                android:inputType="numberDecimal"
+                android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+
+        <TextView android:layout_width="wrap_content"
+                  android:text="请输入类型"
+                  android:layout_height="wrap_content"/>
+
+        <EditText
+                android:id="@+id/type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+
+    </LinearLayout>
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+
+        <TextView android:layout_width="wrap_content"
+                  android:text="请输入备注"
+                  android:layout_height="wrap_content"/>
+
+        <EditText
+                android:id="@+id/note"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_height="wrap_content">
+
+        <TextView android:layout_width="wrap_content"
+                  android:text="请输入时间"
+                  android:layout_height="wrap_content"/>
+
+        <EditText
+                android:id="@+id/date"
+                android:layout_width="match_parent"
+                android:text="2017-07-08 12:20:23"
+                android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+
+    <Button
+            android:id="@+id/confirm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="确认"/>
+
+
+</LinearLayout>
