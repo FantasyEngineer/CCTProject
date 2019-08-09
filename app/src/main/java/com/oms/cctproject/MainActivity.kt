@@ -15,6 +15,7 @@ import com.lzy.okgo.request.base.Request
 import com.oms.cctproject.highcacu.InputHighCacluActivity
 import com.oms.cctproject.memo.MemoHomeActivity
 import com.oms.cctproject.util.FileIOUtils
+import com.oms.touchpoint.widget.D
 import com.tbruyelle.rxpermissions2.RxPermissions
 import io.reactivex.Observer
 import kotlinx.android.synthetic.main.activity_main.*
@@ -66,7 +67,7 @@ class MainActivity : AppCompatActivity() {
         OkGo.get<String>("https://raw.githubusercontent.com/FantasyEngineer/DocumentCenter/master/newfile.txt")
             .execute(object : StringCallback() {
                 override fun onSuccess(response: Response<String>?) {
-                    response.toString()
+//                    D.showShort(response.toString())
                 }
             })
     }
