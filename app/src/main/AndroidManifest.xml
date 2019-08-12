@@ -20,17 +20,18 @@
         <activity android:name=".memo.NoteActivity">
         </activity>
         <activity android:name=".memo.MemoHomeActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
         </activity>
         <activity android:name=".highcacu.InputHighCacluActivity">
         </activity>
         <activity android:name=".highcacu.HighcacluActivity">
         </activity>
         <activity android:name=".MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
         </activity>
         <activity android:name=".SecondActivity"/>
     </application>

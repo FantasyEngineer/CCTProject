@@ -5,24 +5,74 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".memo.MemoHomeActivity">
+    <RelativeLayout
+            android:id="@+id/toplayout"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:background="#000"
+            android:paddingRight="20dp"
+            android:paddingLeft="20dp"
+            android:layout_height="50dp">
 
-    <RelativeLayout android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+        <ImageView android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"/>
+
 
         <TextView android:layout_width="wrap_content"
-                  android:text="总收入"
+                  android:text="账单"
+                  android:textColor="#fff"
+                  android:textSize="21sp"
+                  android:layout_centerInParent="true"
                   android:layout_height="wrap_content"/>
 
-        <TextView android:layout_width="wrap_content"
-                  android:text="总支出"
-                  android:layout_height="wrap_content"/>
+        <TextView
+                android:id="@+id/cctcaclu"
+                android:layout_width="wrap_content"
+                android:text="cct计算"
+                android:textColor="#fff"
+                android:textSize="18sp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_height="wrap_content"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+            android:id="@+id/selectlayout"
+            android:layout_width="match_parent"
+            android:background="#F4F5F6"
+            android:padding="10dp"
+            android:layout_below="@+id/toplayout"
+            android:layout_height="wrap_content">
+        <TextView
+                android:id="@+id/month"
+                android:layout_width="wrap_content"
+                android:text="7月"
+                android:textSize="20dp"
+                android:layout_centerVertical="true"
+                android:layout_height="wrap_content"/>
+        <TextView
+                android:id="@+id/expenses"
+                android:layout_width="wrap_content"
+                android:text="总支出  ￥12313123"
+                android:layout_alignParentRight="true"
+                android:layout_height="wrap_content"/>
+        <TextView
+                android:id="@+id/income"
+                android:layout_width="wrap_content"
+                android:text="总收入  ￥12312"
+                android:layout_below="@+id/expenses"
+                android:layout_alignParentRight="true"
+                android:layout_height="wrap_content"/>
 
 
     </RelativeLayout>
 
     <androidx.recyclerview.widget.RecyclerView
+            android:layout_below="@+id/selectlayout"
             android:id="@+id/recyclerView"
+            android:background="#fff"
             android:layout_width="match_parent"
+            android:overScrollMode="never"
             android:layout_height="match_parent">
 
     </androidx.recyclerview.widget.RecyclerView>

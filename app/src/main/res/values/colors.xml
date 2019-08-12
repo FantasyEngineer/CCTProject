@@ -8,5 +8,6 @@
     <color name="detail_gray">#F6F7FA</color>
     <color name="textgray">#98999A</color>
     <color name="devidegray">#F4F5F6</color>
+    <color name="white">#fff</color>
 
 </resources>

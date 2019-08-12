@@ -1,95 +1,136 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="horizontal"
-              android:layout_width="match_parent"
-              android:paddingTop="10dp"
-              android:paddingLeft="13dp"
-              android:paddingRight="15dp"
-              android:layout_height="wrap_content">
-
-    <RelativeLayout
-            android:layout_width="55dp"
-            android:gravity="center"
-            android:layout_marginRight="5dp"
-            android:background="@mipmap/circle"
-            android:layout_height="55dp">
-
-        <TextView android:layout_width="55dp"
-                  android:text="退"
-                  android:textColor="#fff"
-                  android:textSize="25sp"
-                  android:gravity="center"
-                  android:layout_height="55dp"/>
-    </RelativeLayout>
+<com.oms.cctproject.util.swipelayout.SwipeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                                 xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                 android:orientation="horizontal"
+                                                 android:layout_width="match_parent"
+                                                 app:drag_edge="right"
+                                                 android:layout_height="wrap_content">
 
     <LinearLayout
-            android:layout_width="match_parent"
-            android:orientation="vertical"
-            android:layout_height="wrap_content">
-        <LinearLayout
-                android:layout_width="match_parent"
-                android:gravity="center_vertical"
-                android:layout_height="wrap_content">
-
-            <TextView
-                    android:id="@+id/note"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="15dp"
-                    android:textColor="#000"
-                    android:singleLine="true"
-                    android:ellipsize="end"
-                    android:layout_marginRight="20dp"
-                    android:layout_weight="1"
-                    android:text="这里是note这里是note这里是note这里是note这里是note这里是note"/>
-
-
-            <TextView
-                    android:id="@+id/price"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="20dp"
-                    android:textColor="#000"
-                    android:text="-18.00"/>
-
-        </LinearLayout>
-        <LinearLayout
-                android:layout_width="match_parent"
-                android:gravity="center_vertical"
-                android:layout_marginTop="5dp"
-                android:orientation="vertical"
-                android:layout_height="wrap_content">
-
-            <TextView
-                    android:id="@+id/type"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="12dp"
-                    android:textColor="#000"
-                    android:layout_weight="1"
-                    android:text="这里是类型"/>
-
-
-            <TextView
-                    android:id="@+id/date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="12dp"
-                    android:layout_marginTop="3dp"
-                    android:textColor="@color/textgray"
-                    android:text="08-08 17:42"/>
-
-        </LinearLayout>
-
-        <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/devidegray"
-                android:layout_marginTop="10dp">
-
-        </View>
+            android:id="@+id/bottom_wrapper"
+            android:layout_width="150dp"
+            android:layout_height="match_parent"
+            android:background="@color/textgray"
+            android:orientation="horizontal">
+        <TextView
+                android:id="@+id/delete"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textSize="14dp"
+                android:textColor="@color/white"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:text="删除"/>
+        <TextView
+                android:id="@+id/modify"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:textSize="14dp"
+                android:textColor="@color/white"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:text="修改"/>
 
     </LinearLayout>
 
 
-</LinearLayout>
+    <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:paddingTop="10dp"
+            android:paddingLeft="13dp"
+            android:paddingRight="15dp"
+            android:layout_height="wrap_content">
+
+        <RelativeLayout
+                android:layout_width="55dp"
+                android:gravity="center"
+                android:layout_marginRight="5dp"
+                android:background="@mipmap/circle"
+                android:layout_height="55dp">
+
+            <TextView
+                    android:id="@+id/flag"
+                    android:layout_width="55dp"
+                    android:text="退"
+                    android:textColor="#fff"
+                    android:textSize="25sp"
+                    android:gravity="center"
+                    android:layout_height="55dp"/>
+        </RelativeLayout>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:layout_height="wrap_content">
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:gravity="center_vertical"
+                    android:layout_height="wrap_content">
+
+                <TextView
+                        android:id="@+id/note"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="15dp"
+                        android:textColor="#000"
+                        android:singleLine="true"
+                        android:ellipsize="end"
+                        android:layout_marginRight="20dp"
+                        android:layout_weight="1"
+                        android:text="这里是note这里是note这里是note这里是note这里是note这里是note"/>
+
+
+                <TextView
+                        android:id="@+id/price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="20dp"
+                        android:textColor="#000"
+                        android:text="-18.00"/>
+
+            </LinearLayout>
+            <LinearLayout
+                    android:layout_width="match_parent"
+                    android:gravity="center_vertical"
+                    android:layout_marginTop="5dp"
+                    android:orientation="vertical"
+                    android:layout_height="wrap_content">
+
+                <TextView
+                        android:id="@+id/type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="12dp"
+                        android:textColor="#000"
+                        android:layout_weight="1"
+                        android:text="这里是类型"/>
+
+
+                <TextView
+                        android:id="@+id/date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="12dp"
+                        android:layout_marginTop="3dp"
+                        android:textColor="@color/textgray"
+                        android:text="08-08 17:42"/>
+
+            </LinearLayout>
+
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/devidegray"
+                    android:layout_marginTop="10dp">
+
+            </View>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+</com.oms.cctproject.util.swipelayout.SwipeLayout>
+

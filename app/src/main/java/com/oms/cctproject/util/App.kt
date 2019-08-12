@@ -11,6 +11,7 @@ import com.lzy.okgo.https.HttpsUtils
 import com.lzy.okgo.interceptor.HttpLoggingInterceptor
 import com.lzy.okgo.model.HttpHeaders
 import com.lzy.okgo.model.HttpParams
+import com.oms.touchpoint.widget.D
 import okhttp3.OkHttpClient
 import org.litepal.LitePal
 import java.util.concurrent.TimeUnit
@@ -24,6 +25,7 @@ class App : Application() {
         PrefUtil.init(this)
         LitePal.initialize(this)
         CustomActivityOnCrash.install(this)
+        D.init(this)
         initOkGo()
     }
 
