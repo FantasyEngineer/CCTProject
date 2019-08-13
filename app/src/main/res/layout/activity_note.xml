@@ -16,8 +16,13 @@
             android:background="#000"
             android:layout_height="50dp">
 
-        <ImageView android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"/>
+        <ImageView
+                android:id="@+id/back"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="15dp"
+                android:layout_centerVertical="true"
+                android:background="@drawable/ic_icon_back"/>
 
 
         <TextView android:layout_width="wrap_content"
@@ -101,7 +106,7 @@
                 android:layout_height="wrap_content">
 
             <TextView android:layout_width="wrap_content"
-                      android:text="请输入类型"
+                      android:text="请选择类型"
                       android:textSize="15sp"
                       android:layout_marginRight="15dp"
                       android:textColor="@color/black"
@@ -158,7 +163,7 @@
                 android:layout_height="wrap_content">
 
             <TextView android:layout_width="wrap_content"
-                      android:text="请输入时间"
+                      android:text="请选择时间"
                       android:textSize="15sp"
                       android:layout_marginRight="15dp"
                       android:textColor="@color/black"

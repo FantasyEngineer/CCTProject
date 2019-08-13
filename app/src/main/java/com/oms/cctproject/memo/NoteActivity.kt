@@ -49,12 +49,13 @@ class NoteActivity : AppCompatActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_note)
-        date.setText(SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Date()))
+        date.text = SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(Date())
         type.setOnClickListener(this)
         expenses_flag.setOnClickListener(this)
         income_flag.setOnClickListener(this)
         confirm.setOnClickListener(this)
         date.setOnClickListener(this)
+        back.setOnClickListener { finish() }
     }
 
 
@@ -78,7 +79,7 @@ class NoteActivity : AppCompatActivity(), View.OnClickListener {
                 var dialog: Dialog = Dialog(this)
                 var v = layoutInflater.inflate(R.layout.dialog_type_select, null)
                 var recyclerView = v.findViewById<RecyclerView>(R.id.recyclerView)
-                recyclerView.layoutManager = GridLayoutManager(this, 2) as RecyclerView.LayoutManager?
+                recyclerView.layoutManager = GridLayoutManager(this, 3) as RecyclerView.LayoutManager?
                 var typeSeclectAdapter = TypeSeclectAdapter(R.layout.item_type_textview)
                 recyclerView.adapter = typeSeclectAdapter
                 typeSeclectAdapter.listener = object : SingleClickListener {
