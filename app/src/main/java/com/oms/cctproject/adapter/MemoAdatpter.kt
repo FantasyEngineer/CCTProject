@@ -21,7 +21,7 @@ class MemoAdatpter(layoutResId: Int) :
         helper?.getView<TextView>(R.id.price)?.run {
             //是收入
             if (item?.isIncome!!) {
-                this.text = item?.price.toString()
+                this.text = "+" + item?.price.toString()
                 this.setTextColor(resources.getColor(R.color.holo_red_dark))
             } else {//是支出
                 this.text = "-" + item?.price.toString()

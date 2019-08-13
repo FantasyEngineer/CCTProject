@@ -3,6 +3,7 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -41,21 +42,25 @@
                       android:background="@drawable/bg_black_stroke"
                       android:layout_height="wrap_content">
 
-            <TextView android:layout_width="100dp"
-                      android:text="支"
-                      android:textSize="17sp"
-                      android:background="@color/black"
-                      android:gravity="center"
-                      android:textColor="@color/white"
-                      android:layout_height="40dp"/>
+            <TextView
+                    android:id="@+id/expenses_flag"
+                    android:layout_width="100dp"
+                    android:text="支"
+                    android:textSize="17sp"
+                    android:background="@color/black"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    android:layout_height="40dp"/>
 
-            <TextView android:layout_width="100dp"
-                      android:text="收"
-                      android:textSize="17sp"
-                      android:textColor="@color/black"
-                      android:background="@color/white"
-                      android:gravity="center"
-                      android:layout_height="40dp"/>
+            <TextView
+                    android:id="@+id/income_flag"
+                    android:layout_width="100dp"
+                    android:text="收"
+                    android:textSize="17sp"
+                    android:textColor="@color/black"
+                    android:background="@color/white"
+                    android:gravity="center"
+                    android:layout_height="40dp"/>
 
         </LinearLayout>
         <LinearLayout
@@ -160,13 +165,13 @@
                       android:layout_height="wrap_content"/>
 
 
-            <EditText
+            <TextView
                     android:id="@+id/date"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
                     android:layout_weight="1"
-                    android:enabled="false"
                     android:text="2017-07-08 12:20:23"
+                    android:gravity="center_vertical"
                     android:background="@drawable/bg_btn_gray_stroke_gray_square"
                     android:singleLine="true"
                     android:textColor="#93929a"

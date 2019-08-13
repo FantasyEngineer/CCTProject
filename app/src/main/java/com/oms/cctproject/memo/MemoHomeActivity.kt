@@ -1,10 +1,20 @@
 package com.oms.cctproject.memo
 
+import android.content.Context
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
+import android.util.DisplayMetrics
 import android.util.Log
+import android.view.Gravity
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.Button
+import android.widget.PopupWindow
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.chad.library.adapter.base.BaseQuickAdapter
@@ -16,15 +26,20 @@ import com.oms.cctproject.adapter.MemoAdatpter
 import com.oms.cctproject.highcacu.InputHighCacluActivity
 import com.oms.cctproject.listener.ClickListener
 import com.oms.cctproject.model.ExpenseModel
+import com.oms.cctproject.util.wheelview.WheelView
+import com.oms.cctproject.util.wheelview.adapter.NumericWheelAdapter
+import com.oms.cctproject.util.wheelview.adapter.WheelViewAdapter
 import com.oms.touchpoint.widget.D
 import com.tbruyelle.rxpermissions2.RxPermissions
 import kotlinx.android.synthetic.main.activity_memo_home.*
 import kotlinx.android.synthetic.main.activity_memo_home.recyclerView
+import kotlinx.android.synthetic.main.pop_date_select.*
 import org.litepal.LitePal
 import org.litepal.extension.findAll
 import java.io.File
 import java.sql.Date
 import java.text.SimpleDateFormat
+import java.time.Year
 import java.util.*
 
 class MemoHomeActivity : AppCompatActivity() {
@@ -50,20 +65,11 @@ class MemoHomeActivity : AppCompatActivity() {
 //            list = (Gson().fromJson(str, listType))
 //        }
         var mon = Calendar.getInstance().get(Calendar.MONTH) + 1
-        month.text = mon.toString() + "月"
+        month.text = Calendar.getInstance().get(Calendar.YEAR).toString() + "年" + dealMonth(mon) + "月"
+        var searchtext = Calendar.getInstance().get(Calendar.YEAR).toString() + "-" + dealMonth(mon)
         /*查询数据库中所有的数据*/
 //        allList = LitePal.findAll()
-        allList = LitePal.where("date like ?", "%" + "2019-"+dealMonth(mon) + "%").find(ExpenseModel::class.java)
-        allList?.reverse()
-        allList?.forEach {
-            if (it.isIncome) {
-                comeSum += it.price.toDouble()
-            } else {
-                outSum += it.price.toDouble()
-            }
-        }
-        expenses.text = "总支出  ￥$outSum"
-        income.text = "总收入  ￥$comeSum"
+        showListByWord(searchtext)
 
         /*查找8月的*/
 //        var l = LitePal.where("date like ?", "%" + "2019-08" + "%").find(ExpenseModel::class.java)
@@ -83,15 +89,17 @@ class MemoHomeActivity : AppCompatActivity() {
 
             override fun delete(position: Int) {
                 LitePal.delete(ExpenseModel::class.java, memoAdatpter!!.getItem(position)?.id!!)
-                memoAdatpter!!.remove(position)
                 //总收入要减去
                 if (memoAdatpter!!.getItem(position)?.isIncome!!) {
                     comeSum -= memoAdatpter!!.getItem(position)?.price?.toDouble()!!
                 } else {
                     outSum -= memoAdatpter!!.getItem(position)?.price?.toDouble()!!
                 }
-                expenses.text = "总支出  ￥$outSum"
-                income.text = "总收入  ￥$comeSum"
+                memoAdatpter!!.remove(position)
+                this@MemoHomeActivity.runOnUiThread {
+                    expenses.text = "总支出  ￥$outSum"
+                    income.text = "总收入  ￥$comeSum"
+                }
             }
 
 
@@ -112,9 +120,29 @@ class MemoHomeActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        pupSelect.setOnClickListener {
+            showDatePop()
+            makeWindowDark()
+        }
+
 
         request()
     }
+
+    private fun showListByWord(searchtext: String) {
+        allList = LitePal.where("date like ?", "%$searchtext%").find(ExpenseModel::class.java)
+        allList?.reverse()
+        allList?.forEach {
+            if (it.isIncome) {
+                comeSum += it.price.toDouble()
+            } else {
+                outSum += it.price.toDouble()
+            }
+        }
+        expenses.text = "总支出  ￥$outSum"
+        income.text = "总收入  ￥$comeSum"
+    }
+
 
     private fun request() {
         val rxPermissions = RxPermissions(this)
@@ -167,6 +195,80 @@ class MemoHomeActivity : AppCompatActivity() {
             in 1..9 -> return "0$month"
             else -> return month.toString()
         }
+    }
+
+
+    //选择时间弹窗
+    private fun showDatePop() {
+        val metrics = DisplayMetrics()
+        windowManager.defaultDisplay.getMetrics(metrics)
+        var screenWidth = metrics.widthPixels
+        val inflater = getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val popupWindowView = inflater.inflate(R.layout.pop_date_select, null)
+        val tv_ok = popupWindowView.findViewById(R.id.btn_ok) as Button
+        var wl_year = popupWindowView.findViewById(R.id.wl_year) as WheelView
+        var wl_month = popupWindowView.findViewById(R.id.wl_month) as WheelView
+        val tv_cancel_time = popupWindowView.findViewById(R.id.btn_cancel) as Button
+        var popupWindow = PopupWindow(popupWindowView, screenWidth * 4 / 5, ViewGroup.LayoutParams.WRAP_CONTENT, true)
+        popupWindow.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        popupWindow.isOutsideTouchable = true
+        initWheelView(popupWindowView)
+        popupWindow.showAtLocation(main, Gravity.CENTER, 0, 0)
+        popupWindow.setOnDismissListener { makeWindowLight() }
+        tv_ok.setOnClickListener {
+            var currentSelectYear = wl_year.currentItem + 2010//年
+            var currentSelectMonth = wl_month.currentItem + 1//月
+//-----------------------------------处理数据------------------------------------------------------------------------------
+            month.text = "${currentSelectYear}年" + String.format("%02d", currentSelectMonth) + "月"
+            var searchtext = currentSelectYear.toString() + "-" + String.format("%02d", currentSelectMonth)
+            showListByWord(searchtext)
+            memoAdatpter?.setNewData(allList)
+//-----------------------------------处理数据------------------------------------------------------------------------------
+            popupWindow.dismiss()
+        }
+        tv_cancel_time.setOnClickListener { popupWindow.dismiss() }
+    }
+
+    private fun initWheelView(view: View) {
+        var wl_year = view.findViewById(R.id.wl_year) as WheelView
+        var wl_month = view.findViewById(R.id.wl_month) as WheelView
+
+        val numericWheelAdapterStart1 = NumericWheelAdapter(this, 2010, 2020)
+        numericWheelAdapterStart1.setLabel("年")
+        wl_year?.viewAdapter = numericWheelAdapterStart1
+        numericWheelAdapterStart1.textColor = R.color.black
+        numericWheelAdapterStart1.textSize = 20
+        wl_year.isCyclic = false//是否可循环滑动
+
+        val numericWheelAdapterStart2 = NumericWheelAdapter(this, 1, 12, "%02d")
+        numericWheelAdapterStart2.setLabel("月")
+        wl_month?.viewAdapter = numericWheelAdapterStart2
+        numericWheelAdapterStart2.textColor = R.color.black
+        numericWheelAdapterStart2.textSize = 20
+        wl_month.isCyclic = true
+        //设置默认
+        wl_year.currentItem = month.text.substring(0, 4).toInt() - 2010
+        wl_month.currentItem = month.text.substring(5, 7).toInt() - 1
+    }
+
+    /**
+     * 让屏幕变暗
+     */
+    private fun makeWindowDark() {
+        val window = window
+        val lp = window.attributes
+        lp.alpha = 0.5f
+        window.attributes = lp
+    }
+
+    /**
+     * 让屏幕变亮
+     */
+    private fun makeWindowLight() {
+        val window = window
+        val lp = window.attributes
+        lp.alpha = 1f
+        window.attributes = lp
     }
 
 }

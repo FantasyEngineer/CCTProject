@@ -9,5 +9,7 @@
     <color name="textgray">#98999A</color>
     <color name="devidegray">#F4F5F6</color>
     <color name="white">#fff</color>
+    <color name="blue_text">#000</color>
+    <color name="stroke">#cac7c7</color>
 
 </resources>
