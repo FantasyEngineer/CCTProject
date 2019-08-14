@@ -23,6 +23,7 @@ import com.oms.cctproject.R
 import com.oms.cctproject.adapter.TypeSeclectAdapter
 import com.oms.cctproject.listener.SingleClickListener
 import com.oms.cctproject.model.TaskInfo
+import com.oms.cctproject.util.Manager
 import com.oms.cctproject.util.wheelview.WheelView
 import com.oms.cctproject.util.wheelview.adapter.NumericWheelAdapter
 import com.oms.touchpoint.widget.D
@@ -37,15 +38,6 @@ import kotlin.collections.ArrayList
 class NoteActivity : AppCompatActivity(), View.OnClickListener {
 
     var isincome = false
-    var typelist = mutableListOf(
-        "餐饮消费", "网络购物", "交通出行", "水果零食", "通讯费用",
-        "美容健身", "家居日用", "娱乐社交", "学习办公", "烟酒消费",
-        "房租水电", "购房贷款", "购房贷款", "服饰鞋品"
-    )
-    private var incomeTypelist = mutableListOf(
-        "工作薪水", "兼      职", "链信卖币", "智慧晶卖币", "其      他"
-    )
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_note)
@@ -79,23 +71,23 @@ class NoteActivity : AppCompatActivity(), View.OnClickListener {
                 var dialog: Dialog = Dialog(this)
                 var v = layoutInflater.inflate(R.layout.dialog_type_select, null)
                 var recyclerView = v.findViewById<RecyclerView>(R.id.recyclerView)
-                recyclerView.layoutManager = GridLayoutManager(this, 3) as RecyclerView.LayoutManager?
+                recyclerView.layoutManager = GridLayoutManager(this, 3)
                 var typeSeclectAdapter = TypeSeclectAdapter(R.layout.item_type_textview)
                 recyclerView.adapter = typeSeclectAdapter
                 typeSeclectAdapter.listener = object : SingleClickListener {
                     override fun onclick(position: Int) {
                         if (isincome) {
-                            type.text = incomeTypelist[position]
+                            type.text = Manager.getManager().incomeTypelist[position]
                         } else {
-                            type.text = typelist[position]
+                            type.text = Manager.getManager().typelist[position]
                         }
                         (dialog).dismiss()
                     }
                 }
                 if (isincome) {
-                    typeSeclectAdapter.setNewData(incomeTypelist)
+                    typeSeclectAdapter.setNewData(Manager.getManager().incomeTypelist)
                 } else {
-                    typeSeclectAdapter.setNewData(typelist)
+                    typeSeclectAdapter.setNewData(Manager.getManager().typelist)
 
                 }
                 dialog.setContentView(v)

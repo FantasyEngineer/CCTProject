@@ -25,11 +25,19 @@
                   android:textSize="21sp"
                   android:layout_centerInParent="true"
                   android:layout_height="wrap_content"/>
-
         <TextView
                 android:id="@+id/cctcaclu"
                 android:layout_width="wrap_content"
                 android:text="cct计算"
+                android:textColor="#fff"
+                android:textSize="18sp"
+                android:layout_centerVertical="true"
+                android:layout_height="wrap_content"/>
+
+        <TextView
+                android:id="@+id/tv_statistic"
+                android:layout_width="wrap_content"
+                android:text="统计"
                 android:textColor="#fff"
                 android:textSize="18sp"
                 android:layout_centerVertical="true"
@@ -102,20 +110,50 @@
     </androidx.recyclerview.widget.RecyclerView>
 
 
+    <!--<LinearLayout-->
+            <!--android:id="@+id/bottom"-->
+            <!--android:layout_alignParentBottom="true"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:clipChildren="false"-->
+            <!--android:orientation="horizontal"-->
+            <!--android:layout_height="50dp">-->
+        <!--<TextView-->
+                <!--android:id="@+id/tv_record"-->
+                <!--android:layout_weight="1"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:background="#000"-->
+                <!--android:text="记录"-->
+                <!--android:textSize="17dp"-->
+                <!--android:gravity="center"-->
+                <!--android:textColor="@color/white"-->
+                <!--android:layout_height="match_parent"/>-->
+        <!--<TextView-->
+                <!--android:id="@+id/tv_statistics"-->
+                <!--android:layout_weight="1"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:background="#000"-->
+                <!--android:text="统计"-->
+                <!--android:gravity="center"-->
+                <!--android:textSize="17dp"-->
+                <!--android:textColor="@color/white"-->
+                <!--android:layout_height="match_parent"/>-->
+
+    <!--</LinearLayout>-->
+
     <Button
             android:id="@+id/note"
             android:textColor="#FFFFFF"
-            android:textSize="16sp"
-            android:layout_width="150dp"
+            android:textSize="22dp"
+            android:layout_width="70dp"
             android:layout_marginTop="2dp"
-            android:layout_height="45dp"
-            android:background="@drawable/btnshape"
+            android:layout_height="70dp"
+            android:background="@drawable/btnshape_shadowcircle"
             android:shadowColor="#A8A8A8"
             android:shadowDx="0"
             android:shadowDy="0"
-            android:text="记一笔"
+            android:layout_marginBottom="25dp"
+            android:text="记"
             android:layout_alignParentBottom="true"
-            android:layout_marginBottom="20dp"
             android:layout_centerHorizontal="true"
             android:shadowRadius="5"/>
 

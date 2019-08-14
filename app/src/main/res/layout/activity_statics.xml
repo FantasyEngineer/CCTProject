@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:orientation="vertical"
+              android:layout_height="match_parent">
+    <RelativeLayout
+            android:id="@+id/toplayout"
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:background="#000"
+            android:layout_height="50dp">
+
+        <ImageView
+                android:id="@+id/back"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="15dp"
+                android:layout_centerVertical="true"
+                android:background="@drawable/ic_icon_back"/>
+
+
+        <TextView android:layout_width="wrap_content"
+                  android:text="当月支出比例展示"
+                  android:textColor="#fff"
+                  android:textSize="21sp"
+                  android:layout_centerInParent="true"
+                  android:layout_height="wrap_content"/>
+
+
+    </RelativeLayout>
+
+    <com.github.mikephil.charting.charts.PieChart
+            android:id="@+id/chart1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+    />
+
+</LinearLayout>

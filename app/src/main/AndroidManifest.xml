@@ -17,6 +17,8 @@
             android:roundIcon="@drawable/icon_wallet"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
+        <activity android:name=".StaticsActivity">
+        </activity>
         <activity android:name=".memo.NoteActivity">
         </activity>
         <activity android:name=".memo.MemoHomeActivity">
@@ -31,7 +33,6 @@
         <activity android:name=".highcacu.HighcacluActivity">
         </activity>
         <activity android:name=".MainActivity">
-
         </activity>
         <activity android:name=".SecondActivity"/>
     </application>

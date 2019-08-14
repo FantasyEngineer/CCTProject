@@ -4,46 +4,35 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
 import android.util.DisplayMetrics
-import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.PopupWindow
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.chad.library.adapter.base.BaseQuickAdapter
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
-import com.gyf.barlibrary.ImmersionBar
 import com.oms.cctproject.R
+import com.oms.cctproject.StaticsActivity
 import com.oms.cctproject.adapter.MemoAdatpter
 import com.oms.cctproject.highcacu.InputHighCacluActivity
 import com.oms.cctproject.listener.ClickListener
 import com.oms.cctproject.model.ExpenseModel
+import com.oms.cctproject.util.Manager
 import com.oms.cctproject.util.wheelview.WheelView
 import com.oms.cctproject.util.wheelview.adapter.NumericWheelAdapter
-import com.oms.cctproject.util.wheelview.adapter.WheelViewAdapter
 import com.oms.touchpoint.widget.D
 import com.tbruyelle.rxpermissions2.RxPermissions
 import kotlinx.android.synthetic.main.activity_memo_home.*
-import kotlinx.android.synthetic.main.activity_memo_home.recyclerView
-import kotlinx.android.synthetic.main.pop_date_select.*
 import org.litepal.LitePal
-import org.litepal.extension.findAll
-import java.io.File
-import java.sql.Date
-import java.text.SimpleDateFormat
-import java.time.Year
 import java.util.*
 
 class MemoHomeActivity : AppCompatActivity() {
-    var path: String = Environment.getExternalStorageDirectory().absolutePath + "/memo.txt"
+    //    var path: String = Environment.getExternalStorageDirectory().absolutePath + "/memo.txt"
     private var memoAdatpter: MemoAdatpter? = null
     var allList: MutableList<ExpenseModel>? = null
     var comeSum = 0.0
@@ -51,26 +40,12 @@ class MemoHomeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_memo_home)
-        //如果没有该文件就创建
-//        if (!File(path).exists()) {
-//            var expenseModel = ExpenseModel(12.90, "餐饮美食", "测试数据", false)
-//            list.add(expenseModel)
-//            FileIOUtils.writeFileFromString(File(path), Gson().toJson(list), false)
-//        }
-
-        /*获取数据*/
-//        val listType = object : TypeToken<List<ExpenseModel>>() {}.type
-//        var str = FileIOUtils.readFile2String(File(path))
-//        if (str != null || str != "") {
-//            list = (Gson().fromJson(str, listType))
-//        }
         var mon = Calendar.getInstance().get(Calendar.MONTH) + 1
         month.text = Calendar.getInstance().get(Calendar.YEAR).toString() + "年" + dealMonth(mon) + "月"
         var searchtext = Calendar.getInstance().get(Calendar.YEAR).toString() + "-" + dealMonth(mon)
         /*查询数据库中所有的数据*/
 //        allList = LitePal.findAll()
         showListByWord(searchtext)
-
         /*查找8月的*/
 //        var l = LitePal.where("date like ?", "%" + "2019-08" + "%").find(ExpenseModel::class.java)
 
@@ -123,6 +98,12 @@ class MemoHomeActivity : AppCompatActivity() {
         pupSelect.setOnClickListener {
             showDatePop()
             makeWindowDark()
+        }
+
+        tv_statistic.setOnClickListener {
+            Manager.getManager().setAlllist(memoAdatpter!!.data)
+            var intent = Intent(this, StaticsActivity::class.java)
+            startActivity(intent)
         }
 
 
