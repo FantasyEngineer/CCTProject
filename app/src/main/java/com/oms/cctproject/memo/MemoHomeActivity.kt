@@ -2,10 +2,13 @@ package com.oms.cctproject.memo
 
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
+import android.text.TextUtils
 import android.util.DisplayMetrics
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -16,13 +19,19 @@ import android.widget.PopupWindow
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.chad.library.adapter.base.BaseQuickAdapter
+import com.google.gson.Gson
+import com.lzy.okgo.OkGo
+import com.lzy.okgo.callback.StringCallback
+import com.lzy.okgo.model.Response
 import com.oms.cctproject.R
 import com.oms.cctproject.StaticsActivity
 import com.oms.cctproject.adapter.MemoAdatpter
 import com.oms.cctproject.highcacu.InputHighCacluActivity
 import com.oms.cctproject.listener.ClickListener
 import com.oms.cctproject.model.ExpenseModel
+import com.oms.cctproject.model.VersionModel
 import com.oms.cctproject.util.Manager
+import com.oms.cctproject.util.PrefUtil
 import com.oms.cctproject.util.wheelview.WheelView
 import com.oms.cctproject.util.wheelview.adapter.NumericWheelAdapter
 import com.oms.touchpoint.widget.D
@@ -108,6 +117,7 @@ class MemoHomeActivity : AppCompatActivity() {
 
 
         request()
+        requestNewVersion()
     }
 
     private fun showListByWord(searchtext: String) {
@@ -251,5 +261,43 @@ class MemoHomeActivity : AppCompatActivity() {
         lp.alpha = 1f
         window.attributes = lp
     }
+
+
+    /**
+     * 请求新版本
+     */
+    private fun requestNewVersion() {
+        D.showShort(getVerName(this))
+        OkGo.get<String>("https://raw.githubusercontent.com/FantasyEngineer/DocumentCenter/master/newfile.txt?time=" + System.currentTimeMillis())
+            .execute(object : StringCallback() {
+                override fun onSuccess(response: Response<String>?) {
+                    var versionModel =
+                        Gson().fromJson<VersionModel>(response?.body().toString(), VersionModel::class.java)
+                    if (versionModel.version != getVerName(this@MemoHomeActivity)) {
+                        D.showShort("正在下载${versionModel.version}版本")
+                        var uri = Uri.parse(versionModel.url)
+                        var intent = Intent(Intent.ACTION_VIEW, uri)
+                        startActivity(intent)
+                    }
+//                    if (TextUtils.isEmpty(PrefUtil.getString("version")) || versionModel.version != PrefUtil.getString("version")) {
+//                        PrefUtil.putString("version", versionModel.version)
+//                        var uri = Uri.parse(versionModel.url)
+//                        var intent = Intent(Intent.ACTION_VIEW, uri)
+//                        startActivity(intent)
+//                    }
+                }
+            })
+    }
+
+    public fun getVerName(context: Context): String {
+        var verName = ""
+        try {
+            verName = context.packageManager.getPackageInfo(context.packageName, 0).versionName
+        } catch (e: PackageManager.NameNotFoundException) {
+            e.printStackTrace();
+        }
+        return verName;
+    }
+
 
 }

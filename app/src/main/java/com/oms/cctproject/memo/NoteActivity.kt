@@ -3,11 +3,8 @@ package com.oms.cctproject.memo
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Context
-import android.content.DialogInterface
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.icu.lang.UCharacter
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
 import android.util.DisplayMetrics
@@ -15,25 +12,21 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
-import androidx.appcompat.app.AlertDialog
+import android.widget.PopupWindow
+import android.widget.TextView
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.oms.cctproject.R
 import com.oms.cctproject.adapter.TypeSeclectAdapter
 import com.oms.cctproject.listener.SingleClickListener
-import com.oms.cctproject.model.TaskInfo
 import com.oms.cctproject.util.Manager
 import com.oms.cctproject.util.wheelview.WheelView
 import com.oms.cctproject.util.wheelview.adapter.NumericWheelAdapter
-import com.oms.touchpoint.widget.D
-import io.reactivex.Single
 import kotlinx.android.synthetic.main.activity_note.*
-import kotlinx.android.synthetic.main.activity_note.note
-import kotlinx.android.synthetic.main.pop_date_full_select.*
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 class NoteActivity : AppCompatActivity(), View.OnClickListener {
 
