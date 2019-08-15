@@ -1,6 +1,7 @@
 package com.oms.cctproject.memo
 
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
@@ -16,6 +17,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.PopupWindow
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.chad.library.adapter.base.BaseQuickAdapter
@@ -276,14 +278,25 @@ class MemoHomeActivity : AppCompatActivity() {
                     var versionModel =
                         Gson().fromJson<VersionModel>(response?.body().toString(), VersionModel::class.java)
                     if (versionModel.version != getVerName(this@MemoHomeActivity)) {
-                        D.showShort("正在下载${versionModel.version}版本")
-                        var uri = Uri.parse(versionModel.url)
-                        var intent = Intent(Intent.ACTION_VIEW, uri)
-                        startActivity(intent)
+                        showUpdataDialog(versionModel)
                     }
 
                 }
             })
+    }
+
+    private fun showUpdataDialog(versionModel: VersionModel) {
+        var alerdialog = AlertDialog.Builder(this)
+        alerdialog.setMessage(versionModel.content)
+        alerdialog.setPositiveButton("更新") { _, _ ->
+            D.showShort("正在下载${versionModel.version}版本")
+            var uri = Uri.parse(versionModel.url)
+            var intent = Intent(Intent.ACTION_VIEW, uri)
+            startActivity(intent)
+
+        }
+        alerdialog.create().show()
+
     }
 
     public fun getVerName(context: Context): String {
