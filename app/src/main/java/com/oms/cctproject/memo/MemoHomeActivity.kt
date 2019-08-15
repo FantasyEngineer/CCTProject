@@ -111,6 +111,7 @@ class MemoHomeActivity : AppCompatActivity() {
 
         tv_statistic.setOnClickListener {
             Manager.getManager().setAlllist(memoAdatpter!!.data)
+            Manager.getManager().searchTime = month.text.toString()
             var intent = Intent(this, StaticsActivity::class.java)
             startActivity(intent)
         }
@@ -121,6 +122,8 @@ class MemoHomeActivity : AppCompatActivity() {
     }
 
     private fun showListByWord(searchtext: String) {
+        comeSum = 0.0
+        outSum = 0.0
         allList = LitePal.where("date like ?", "%$searchtext%").find(ExpenseModel::class.java)
         allList?.reverse()
         allList?.forEach {
@@ -164,7 +167,7 @@ class MemoHomeActivity : AppCompatActivity() {
             D.showShort("是否保存成功：" + expenseModel.save().toString())
             //插入到list中，界面更新
             allList?.add(0, expenseModel)
-            memoAdatpter!!.notifyItemChanged(0)
+            memoAdatpter!!.notifyDataSetChanged()
 
             if (expenseModel.isIncome) {
                 comeSum += expenseModel.price.toDouble()
@@ -267,7 +270,6 @@ class MemoHomeActivity : AppCompatActivity() {
      * 请求新版本
      */
     private fun requestNewVersion() {
-        D.showShort(getVerName(this))
         OkGo.get<String>("https://raw.githubusercontent.com/FantasyEngineer/DocumentCenter/master/newfile.txt?time=" + System.currentTimeMillis())
             .execute(object : StringCallback() {
                 override fun onSuccess(response: Response<String>?) {
@@ -279,12 +281,7 @@ class MemoHomeActivity : AppCompatActivity() {
                         var intent = Intent(Intent.ACTION_VIEW, uri)
                         startActivity(intent)
                     }
-//                    if (TextUtils.isEmpty(PrefUtil.getString("version")) || versionModel.version != PrefUtil.getString("version")) {
-//                        PrefUtil.putString("version", versionModel.version)
-//                        var uri = Uri.parse(versionModel.url)
-//                        var intent = Intent(Intent.ACTION_VIEW, uri)
-//                        startActivity(intent)
-//                    }
+
                 }
             })
     }

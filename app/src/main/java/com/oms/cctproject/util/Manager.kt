@@ -6,6 +6,11 @@ import com.oms.cctproject.model.TypeChartValueModel
 class Manager private constructor() {
     var record: String? = null
     var allList: MutableList<ExpenseModel>? = null
+    var searchTime: String? = null
+        get() = field
+        set(value) {
+            field = value
+        }
 
     var typelist = mutableListOf(
         "餐饮消费", "网络购物", "交通出行", "水果零食", "通讯费用",
