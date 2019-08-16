@@ -53,9 +53,8 @@ class PieExChartFragment : Fragment() {
     private fun initView() {
         time = Manager.getManager().searchTime.toString()
         searchtext = time!!.split("年")[0] + "-" + time!!.split("年")[1].split("月")[0]
-        typelist = getList()
         //获取数据
-//        typelist = getTypeChartValueList(Manager.getManager().allList!!)
+        typelist = getList()
         chart1.setUsePercentValues(true)
 
         chart1.description.isEnabled = false
@@ -315,27 +314,11 @@ class PieExChartFragment : Fragment() {
             dayChartValueModels.add(dayChartValueModel!!)
         }
 
-
-        val start = 1f
-
         val values = ArrayList<BarEntry>()
 
         dayChartValueModels.forEach {
             values.add(BarEntry(it.day.toFloat(), it.dayValueSum))
         }
-
-//        var i = start.toInt()
-//        while (i < start + count) {
-//            val `val` = (Math.random() * (range + 1)).toFloat()
-//
-//            //            if (Math.random() * 100 < 25) {
-//            //                values.add(new BarEntry(i, val, getResources().getDrawable(R.drawable.star)));
-//            //            } else {
-//            Log.d(this.javaClass.toString(), i.toString() + "")
-//            values.add(BarEntry(i.toFloat(), `val`))
-//            i++
-//            //            }
-//        }
 
         val set1: BarDataSet
 

@@ -24,7 +24,7 @@
                   android:textColor="#fff"
                   android:textSize="21sp"
                   android:layout_centerInParent="true"
-                  android:layout_height="wrap_content"/>
+                  android:layout_height="wrap_content" android:id="@+id/memotitle"/>
         <TextView
                 android:id="@+id/cctcaclu"
                 android:layout_width="wrap_content"
@@ -34,124 +34,244 @@
                 android:layout_centerVertical="true"
                 android:layout_height="wrap_content"/>
 
-        <TextView
-                android:id="@+id/tv_statistic"
-                android:layout_width="wrap_content"
-                android:text="统计"
-                android:textColor="#fff"
-                android:textSize="18sp"
-                android:layout_centerVertical="true"
-                android:layout_alignParentRight="true"
-                android:layout_height="wrap_content"/>
+        <!--<TextView-->
+                <!--android:id="@+id/tv_statistic"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:text="统计"-->
+                <!--android:textColor="#fff"-->
+                <!--android:textSize="18sp"-->
+                <!--android:layout_centerVertical="true"-->
+                <!--android:layout_alignParentRight="true"-->
+                <!--android:layout_height="wrap_content"/>-->
     </RelativeLayout>
-
-    <RelativeLayout
-            android:id="@+id/selectlayout"
-            android:layout_width="match_parent"
-            android:background="#F4F5F6"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
+    <LinearLayout
+            android:id="@+id/ll_record"
+            android:layout_width="wrap_content"
             android:layout_below="@+id/toplayout"
-            android:layout_height="wrap_content">
-
-        <LinearLayout
-                android:id="@+id/pupSelect"
-                android:layout_width="wrap_content"
-                android:gravity="center_vertical"
-                android:padding="5dp"
-                android:background="@drawable/bg_white"
+            android:orientation="vertical"
+            android:layout_above="@+id/bottom"
+            android:layout_height="match_parent">
+        <RelativeLayout
+                android:id="@+id/rl_filter_layout"
+                android:layout_width="match_parent"
+                android:background="@color/white"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:layout_below="@+id/toplayout"
                 android:layout_height="wrap_content">
+            <LinearLayout
+                    android:id="@+id/filtrate"
+                    android:layout_width="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:gravity="center_vertical"
+                    android:background="@drawable/bg_white"
+                    android:layout_height="wrap_content">
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:text="筛选"
+                        android:layout_marginRight="3dp"
+                        android:textSize="16dp"
+                        android:layout_centerVertical="true"
+                        android:layout_height="wrap_content"/>
+
+                <ImageView
+                        android:layout_width="13dp"
+                        android:layout_height="13dp"
+                        android:layout_marginRight="5dp"
+                        android:background="@drawable/ic_icon_xiala"/>
+            </LinearLayout>
+            <LinearLayout
+                    android:id="@+id/select_type"
+                    android:layout_width="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="20dp"
+                    android:gravity="center_vertical"
+                    android:layout_toRightOf="@+id/filtrate"
+                    android:background="@drawable/bg_white"
+                    android:layout_height="wrap_content">
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:text="分类"
+                        android:layout_marginRight="3dp"
+                        android:textSize="16dp"
+                        android:layout_centerVertical="true"
+                        android:layout_height="wrap_content"/>
+
+                <ImageView
+                        android:layout_width="13dp"
+                        android:layout_height="13dp"
+                        android:layout_marginRight="5dp"
+                        android:background="@drawable/ic_icon_xiala"/>
+            </LinearLayout>
+            <View android:layout_width="1dp"
+                  android:layout_height="20dp"
+                  android:layout_marginRight="10dp"
+                  android:background="#F4F5F6"
+                  android:layout_toLeftOf="@+id/search">
+            </View>
 
             <TextView
-                    android:id="@+id/month"
+                    android:id="@+id/search"
                     android:layout_width="wrap_content"
-                    android:paddingRight="10dp"
-                    android:paddingLeft="10dp"
-                    android:text="7月"
-                    android:textColor="@color/black"
-                    android:textSize="20dp"
-                    android:layout_centerVertical="true"
+                    android:text="搜索"
+                    android:textSize="16dp"
+                    android:layout_alignParentRight="true"
                     android:layout_height="wrap_content"/>
 
-            <ImageView
+
+        </RelativeLayout>
+
+        <RelativeLayout
+                android:id="@+id/selectlayout"
+                android:layout_width="match_parent"
+                android:background="#F4F5F6"
+                android:paddingTop="6dp"
+                android:paddingBottom="6dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:layout_below="@+id/toplayout"
+                android:layout_height="wrap_content">
+
+            <LinearLayout
+                    android:id="@+id/pupSelect"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="5dp"
-                    android:background="@drawable/ic_icon_xiala"/>
-        </LinearLayout>
+                    android:layout_centerVertical="true"
+                    android:gravity="center_vertical"
+                    android:padding="3dp"
+                    android:background="@drawable/bg_white"
+                    android:layout_height="wrap_content">
 
-        <TextView
-                android:id="@+id/expenses"
-                android:layout_width="wrap_content"
-                android:text="总支出  ￥12313123"
-                android:layout_alignParentRight="true"
-                android:layout_height="wrap_content"/>
-        <TextView
-                android:id="@+id/income"
-                android:layout_width="wrap_content"
-                android:text="总收入  ￥12312"
-                android:layout_below="@+id/expenses"
-                android:layout_alignParentRight="true"
-                android:layout_height="wrap_content"/>
+                <TextView
+                        android:id="@+id/month"
+                        android:layout_width="wrap_content"
+                        android:paddingRight="10dp"
+                        android:paddingLeft="10dp"
+                        android:text="7月"
+                        android:textColor="@color/black"
+                        android:textSize="17dp"
+                        android:layout_centerVertical="true"
+                        android:layout_height="wrap_content"/>
+
+                <ImageView
+                        android:layout_width="13dp"
+                        android:layout_height="13dp"
+                        android:layout_marginRight="5dp"
+                        android:background="@drawable/ic_icon_xiala"/>
+            </LinearLayout>
+
+            <TextView
+                    android:id="@+id/expenses"
+                    android:layout_width="wrap_content"
+                    android:text="总支出  ￥12313123"
+                    android:layout_alignParentRight="true"
+                    android:layout_height="wrap_content"/>
+            <TextView
+                    android:id="@+id/income"
+                    android:layout_width="wrap_content"
+                    android:text="总收入  ￥12312"
+                    android:layout_marginTop="3dp"
+                    android:layout_below="@+id/expenses"
+                    android:layout_alignParentRight="true"
+                    android:layout_height="wrap_content"/>
 
 
-    </RelativeLayout>
+        </RelativeLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-            android:layout_below="@+id/selectlayout"
-            android:id="@+id/recyclerView"
-            android:background="#fff"
+        <androidx.recyclerview.widget.RecyclerView
+                android:layout_below="@+id/selectlayout"
+                android:id="@+id/recyclerView"
+                android:background="#fff"
+                android:layout_width="match_parent"
+                android:overScrollMode="never"
+                android:layout_height="match_parent">
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+
+    </LinearLayout>
+
+    <!--下面是隐藏图表的布局-->
+
+    <ScrollView
+            android:id="@+id/ll_statics"
             android:layout_width="match_parent"
+            android:layout_below="@+id/toplayout"
+            android:layout_above="@+id/bottom"
+            android:orientation="vertical"
             android:overScrollMode="never"
+            android:visibility="gone"
             android:layout_height="match_parent">
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:orientation="vertical"
+                android:layout_height="match_parent">
 
-    </androidx.recyclerview.widget.RecyclerView>
+            <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/chart1"
+                    android:layout_width="match_parent"
+                    android:layout_height="450dp"/>
 
+            <TextView android:layout_width="match_parent"
+                      android:gravity="center"
+                      android:layout_margin="5dp"
+                      android:textColor="@color/black"
+                      android:textSize="15dp"
+                      android:layout_height="wrap_content"
+                      android:text="每天消费详情"/>
 
-    <!--<LinearLayout-->
-            <!--android:id="@+id/bottom"-->
-            <!--android:layout_alignParentBottom="true"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:clipChildren="false"-->
-            <!--android:orientation="horizontal"-->
-            <!--android:layout_height="50dp">-->
-        <!--<TextView-->
-                <!--android:id="@+id/tv_record"-->
-                <!--android:layout_weight="1"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:background="#000"-->
-                <!--android:text="记录"-->
-                <!--android:textSize="17dp"-->
-                <!--android:gravity="center"-->
-                <!--android:textColor="@color/white"-->
-                <!--android:layout_height="match_parent"/>-->
-        <!--<TextView-->
-                <!--android:id="@+id/tv_statistics"-->
-                <!--android:layout_weight="1"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:background="#000"-->
-                <!--android:text="统计"-->
-                <!--android:gravity="center"-->
-                <!--android:textSize="17dp"-->
-                <!--android:textColor="@color/white"-->
-                <!--android:layout_height="match_parent"/>-->
+            <com.github.mikephil.charting.charts.BarChart
+                    android:id="@+id/chart2"
+                    android:layout_width="match_parent"
+                    android:layout_height="450dp"/>
+        </LinearLayout>
+    </ScrollView>
 
-    <!--</LinearLayout>-->
+    <LinearLayout
+            android:id="@+id/bottom"
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:clipChildren="false"
+            android:orientation="horizontal"
+            android:layout_height="50dp">
+        <TextView
+                android:id="@+id/tv_record"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:background="@color/stroke"
+                android:text="账单"
+                android:textSize="16dp"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:layout_height="match_parent"/>
+        <TextView
+                android:id="@+id/tv_statistics"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:background="#000"
+                android:text="统计"
+                android:gravity="center"
+                android:textSize="16dp"
+                android:textColor="@color/white"
+                android:layout_height="match_parent"/>
+
+    </LinearLayout>
+
 
     <Button
             android:id="@+id/note"
             android:textColor="#FFFFFF"
             android:textSize="22dp"
-            android:layout_width="70dp"
+            android:layout_width="75dp"
             android:layout_marginTop="2dp"
-            android:layout_height="70dp"
+            android:layout_height="75dp"
             android:background="@drawable/btnshape_shadowcircle"
             android:shadowColor="#A8A8A8"
             android:shadowDx="0"
             android:shadowDy="0"
-            android:layout_marginBottom="25dp"
             android:text="记"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
